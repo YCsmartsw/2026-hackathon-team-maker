@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>팀 추첨 검증 — 2026 연암공과대학교 해커톤</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/verify.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="hdr-left">
+      <span class="hdr-school">연암공과대학교</span>
+      <span class="hdr-div">·</span>
+      <span class="hdr-title">2026 해커톤 팀 추첨 — 결과 검증</span>
+    </div>
+    <a href="index.html" class="back-link">← 추첨 페이지</a>
+  </header>
+
+  <div class="content">
+
+    <div class="intro-card">
+      <div class="intro-title">공정성 검증 원리</div>
+      <p class="intro-desc">
+        추첨에 사용된 시드를 입력하면 동일한 결정론적 알고리즘으로 팀 배정을 완전히 재현합니다.<br>
+        같은 시드 → 같은 해시 → 같은 정렬 순서 → <strong>항상 동일한 결과</strong>가 보장됩니다.
+      </p>
+
+      <div class="algo-section">
+        <div class="algo-section-label">상수</div>
+        <div class="algo-box">
+          <span class="algo-comment">// 조작 방지용 고정 salt — 모든 참가자에 공통 적용</span><br>
+          EVENT_SALT = <span class="algo-red">"연암공대2026해커톤"</span>
+        </div>
+      </div>
+
+      <div class="algo-section">
+        <div class="algo-section-label">알고리즘 — 3단계</div>
+        <div class="algo-steps">
+
+          <div class="algo-step">
+            <span class="algo-step-num">1</span>
+            <div class="algo-step-body">
+              <div class="algo-step-title">해시 계산 &mdash; 팀원 29명 + 팀장 7명 각각</div>
+              <div class="algo-box">
+                hash(p) = <span class="algo-blue">SHA-256</span>( EVENT_SALT + seed + p.name + p.id )<br>
+                <span class="algo-comment">→ 256-bit 다이제스트를 64자리 16진수 문자열로 인코딩</span><br>
+                <span class="algo-comment">→ WebCrypto API: crypto.subtle.digest('SHA-256', UTF-8(input))</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="algo-step">
+            <span class="algo-step-num">2</span>
+            <div class="algo-step-body">
+              <div class="algo-step-title">팀원·팀장 각각 해시 오름차순 정렬</div>
+              <div class="algo-box">
+                members.sort((a, b) =&gt; a.hash.<span class="algo-blue">localeCompare</span>(b.hash))<br>
+                leaders.sort((a, b) =&gt; a.hash.<span class="algo-blue">localeCompare</span>(b.hash))<br>
+                <span class="algo-comment">→ 16진수 문자열 사전순 = SHA-256 값의 수치 오름차순과 동일</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="algo-step">
+            <span class="algo-step-num">3</span>
+            <div class="algo-step-body">
+              <div class="algo-step-title">라운드로빈으로 7팀에 팀원 순차 배정</div>
+              <div class="algo-box">
+                <span class="algo-comment">// 정렬된 팀원을 팀 0→1→…→6→0→1→… 순서로 반복 분배</span><br>
+                sorted_members.<span class="algo-blue">forEach</span>((m, i) =&gt; teams[i <span class="algo-blue">% 7</span>].push(m))<br>
+                <span class="algo-comment">// 팀장은 정렬 인덱스 순서대로 팀 1~7에 매핑</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="algo-guarantee">
+        <span class="algo-guarantee-icon">🔒</span>
+        <div>
+          <strong>결정론적 보장</strong> &mdash;
+          <code>crypto.subtle.digest('SHA-256', ...)</code>은 동일 입력에 항상 동일 출력을 냅니다.
+          따라서 같은 seed를 입력하면 해시 값·정렬 순서·팀 배정이 완전히 재현됩니다.
+          브라우저 종류·운영체제·실행 시각과 무관하게 동일합니다.
+        </div>
+      </div>
+    </div>
+
+    <form id="verify-form" style="margin-bottom: 0;">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="seed-input">시드 (추첨 당시 표시된 숫자)</label>
+          <input id="seed-input" type="number" placeholder="예: 1748346123456" min="1" autocomplete="off">
+          <span id="seed-error"></span>
+        </div>
+        <button id="verify-btn" type="submit">검증하기</button>
+      </div>
+    </form>
+
+    <div id="result-section">
+      <div id="result-banner"></div>
+      <div id="verify-grid"></div>
+    </div>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/fair.js"></script>
+  <script src="js/animation.js"></script>
+  <script src="js/verify.js"></script>
+</body>
+
+</html>
