@@ -1,0 +1,104 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --red: #C30034;
+  --blue: #5FA3BF;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+}
+
+.hdr-left {
+  display: flex;
+  align-items: center;
+}
+
+.hdr-school {
+  font-weight: 700;
+}
+
+.hdr-div {
+  color: var(--border-md);
+}
+
+/* 페이지 간 이동 링크 */
+.back-link,
+#verify-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.back-link:hover,
+#verify-link:hover {
+  text-decoration: underline;
+}
+
+/* 소형 라벨 공통 */
+.section-label,
+.form-label,
+.sb-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* 카드 서브헤더 */
+.tc-header,
+.v-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+/* 카드 멤버 수 */
+.tc-size,
+.v-count {
+  font-size: 0.7rem;
+  color: var(--text-3);
+}
+
+/* 학번 모노스페이스 */
+.tc-sid,
+.v-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--text-3);
+  margin-left: auto;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--elevated);
+  border-radius: 2px;
+}
