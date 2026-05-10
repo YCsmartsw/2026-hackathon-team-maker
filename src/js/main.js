@@ -1,14 +1,8 @@
 $(async function () {
   var data = window.HACKATHON_DATA;
 
-  // 팀장 칩 렌더
-  data.leaders.forEach(function (l) {
-    var chip = $('<div class="leader-chip">').text("👑 " + l.name);
-    $("#leaders-strip").append(chip);
-  });
-
-  // 팀원 풀 초기화
-  Animator.initPool(data.members);
+  // 참가자 풀 초기화
+  Animator.initPool(data.people);
 
   // 시드 카운터 시작
   SeedManager.start();

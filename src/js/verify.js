@@ -63,16 +63,8 @@ $(async function () {
           team.id +
           "</span>" +
           '<span class="v-count">' +
-          (team.members.length + 1) +
+          team.members.length +
           "인</span>" +
-          "</div>" +
-          '<div class="v-leader">' +
-          '👑 <span class="v-name">' +
-          team.leader.name +
-          "</span>" +
-          '<span class="v-id">' +
-          team.leader.id +
-          "</span>" +
           "</div>" +
           memberRows +
           "</div>",

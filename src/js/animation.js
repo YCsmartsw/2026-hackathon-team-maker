@@ -31,7 +31,7 @@
     document.getElementById("btn-copy-announce").onclick = function () {
       var lines = [];
       teams.forEach(function (team) {
-        lines.push("[팀 " + team.id + "] 팀장: " + team.leader.name);
+        lines.push("[팀 " + team.id + "]");
         lines.push(team.members.map(function (m) { return m.name; }).join(", "));
         lines.push("");
       });
@@ -397,14 +397,8 @@
         '">팀 ' +
         team.id +
         '</span><span class="tc-size">' +
-        (team.members.length + 1) +
+        team.members.length +
         "인</span></div>";
-      var leaderRow =
-        '<div class="tc-leader"><span class="tc-crown">👑</span><span class="tc-name">' +
-        team.leader.name +
-        '</span><span class="tc-sid">' +
-        team.leader.id +
-        "</span></div>";
 
       var memberSlots = team.members
         .map(function (m) {
@@ -425,7 +419,6 @@
 
       card.innerHTML =
         header +
-        leaderRow +
         '<div class="tc-members">' +
         memberSlots +
         "</div>";

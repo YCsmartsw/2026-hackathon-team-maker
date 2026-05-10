@@ -1,5 +1,5 @@
 window.HACKATHON_DATA = {
-  leaders: [
+  people: [
     {
       name: "강민제",
       id: "22360****",
@@ -28,8 +28,6 @@ window.HACKATHON_DATA = {
       name: "양희승",
       id: "22260****",
     },
-  ],
-  members: [
     {
       name: "김준성",
       id: "22360****",

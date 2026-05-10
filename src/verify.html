@@ -48,7 +48,7 @@
           <div class="algo-step">
             <span class="algo-step-num">1</span>
             <div class="algo-step-body">
-              <div class="algo-step-title">해시 계산 &mdash; 팀원 29명 + 팀장 7명 각각</div>
+              <div class="algo-step-title">해시 계산 &mdash; 참가자 36명 각각</div>
               <div class="algo-box">
                 hash(p) = <span class="algo-blue">SHA-256</span>( EVENT_SALT + seed + p.name + p.id )<br>
                 <span class="algo-comment">→ 256-bit 다이제스트를 64자리 16진수 문자열로 인코딩</span><br>
@@ -60,10 +60,9 @@
           <div class="algo-step">
             <span class="algo-step-num">2</span>
             <div class="algo-step-body">
-              <div class="algo-step-title">팀원·팀장 각각 해시 오름차순 정렬</div>
+              <div class="algo-step-title">참가자 전원 해시 오름차순 정렬</div>
               <div class="algo-box">
-                members.sort((a, b) =&gt; a.hash.<span class="algo-blue">localeCompare</span>(b.hash))<br>
-                leaders.sort((a, b) =&gt; a.hash.<span class="algo-blue">localeCompare</span>(b.hash))<br>
+                people.sort((a, b) =&gt; a.hash.<span class="algo-blue">localeCompare</span>(b.hash))<br>
                 <span class="algo-comment">→ 16진수 문자열 사전순 = SHA-256 값의 수치 오름차순과 동일</span>
               </div>
             </div>
@@ -72,11 +71,11 @@
           <div class="algo-step">
             <span class="algo-step-num">3</span>
             <div class="algo-step-body">
-              <div class="algo-step-title">라운드로빈으로 7팀에 팀원 순차 배정</div>
+              <div class="algo-step-title">라운드로빈으로 7팀에 순차 배정</div>
               <div class="algo-box">
-                <span class="algo-comment">// 정렬된 팀원을 팀 0→1→…→6→0→1→… 순서로 반복 분배</span><br>
-                sorted_members.<span class="algo-blue">forEach</span>((m, i) =&gt; teams[i <span class="algo-blue">% 7</span>].push(m))<br>
-                <span class="algo-comment">// 팀장은 정렬 인덱스 순서대로 팀 1~7에 매핑</span>
+                <span class="algo-comment">// 정렬된 참가자를 팀 0→1→…→6→0→1→… 순서로 반복 분배</span><br>
+                sorted_people.<span class="algo-blue">forEach</span>((p, i) =&gt; teams[i <span class="algo-blue">% 7</span>].push(p))<br>
+                <span class="algo-comment">// 팀장 사전 지정 없이 36명 모두 동일한 추첨 대상</span>
               </div>
             </div>
           </div>
